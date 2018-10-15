@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Raw Web</title>
+	<link rel="stylesheet" type="text/css" href="src/css/bootstrap.min.css">
+	<script src="src/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-fixed-top">
+     	<a class="navbar-brand" href="#" id="showTitle">Home</a>
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	        <ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#" id="showAdd">Add</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="#" id="showUpdate">Update</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="#" id="showDelete">Delete</a>
+				</li>
+	        </ul>
+	    </div>
+    </nav>
+
+	<div id='FormTitle' class="container">
+		<div class="jumbotron">
+			<h1>Raw Web Title</h1>      
+			<p>Raw Web Description</p>
+		</div>
+		<p>Lorem Ipsum</p>            
+	</div>
+
+
+	<form method="post" action="" id="FormAdd">
+		<div class="form-group">
+			<label>First Name:</label>
+			<input type="text" class="form-control" id="firstname" name="firstname">
+		</div>
+		<div class="form-group">
+			<label>Last Name:</label>
+			<input type="text" class="form-control" id="lastname" name="lastname">
+		</div>
+		<div class="form-group">
+			<label>Email:</label>
+			<input type="text" class="form-control" id="email" name="email">
+		</div>
+			<button type="submit" id="SubmitAdd" class="btn btn-default">Submit</button>
+	</form>
+
+	<form method="post" action="" id="FormUpdate">
+		<div class="form-group">
+			<label>Update First Name:</label>
+			<input type="text" class="form-control" id="updatefirstname" name="updatefirstname">
+		</div>
+		<div class="form-group">
+			<label>Update Last Name:</label>
+			<input type="text" class="form-control" id="updatelastname" name="updatelastname">
+		</div>
+		<div class="form-group">
+			<label>Update Email:</label>
+			<input type="text" class="form-control" id="updateemail" name="updateemail">
+		</div>
+			<button type="submit" id="SubmitCheck" class="btn btn-default">View Data</button>
+			<button type="submit" id="SubmitUpdate" class="btn btn-default">Submit</button>
+	</form>
+
+	<form method="post" action="" id="FormDelete">
+		<div class="form-group">
+			<label>Please Enter First Name:</label>
+			<input type="text" class="form-control" id="deletefirstname" name="deletefirstname">
+		</div>
+		<button type="submit" id="SubmitDelete" class="btn btn-default">Submit</button>
+	</form>	
+
+	<script>
+
+
+		$('#showTitle').on('click', function() {
+			$('#FormDelete').hide();
+			$('#FormUpdate').hide();
+			$('#FormAdd').hide();
+			$('#FormTitle').show();
+		});
+
+		$('#showAdd').on('click', function() {
+			$('#FormDelete').hide();
+			$('#FormUpdate').hide();
+			$('#FormTitle').hide();
+			$('#FormAdd').show();
+		});
+
+		$('#showUpdate').on('click', function() {
+			$('#FormDelete').hide();
+			$('#FormAdd').hide();
+			$('#FormTitle').hide();
+			$('#FormUpdate').show();
+		});
+
+		$('#showDelete').on('click', function() {
+			$('#FormAdd').hide();
+			$('#FormTitle').hide();
+			$('#FormUpdate').hide();
+			$('#FormDelete').show();
+		});
+
+		$('#SubmitAdd').on('click', function(e) {
+			e.preventDefault();
+			var addData = $('#FormAdd').serialize();
+			$.ajax({
+				method: 'post',
+				data: addData,
+				url: "php/Add.php",
+				success: function(response) {
+					alert(response);
+				}
+			});
+		});
+
+		$('#SubmitCheck').on('click', function(e) {
+			e.preventDefault();
+			var addData = $('#updatefirstname').val();
+			$.ajax({
+				method: 'post',
+				data: {
+					'updatefirstname' : addData
+				},
+				url: "php/show.php",
+				success: function(response) {
+					var val = JSON.parse(response);
+					$('#updatefirstname').val(val.firstname);
+					$('#updatelastname').val(val.lastname);
+					$('#updateemail').val(val.email);
+				}
+			});
+		});
+
+		$('#SubmitUpdate').on('click', function(e) {
+			e.preventDefault();
+			var addData = $('#FormUpdate').serialize();
+			$.ajax({
+				method: 'post',
+				data: addData,
+				url: "php/update.php",
+				success: function(response) {
+					alert(response);
+				}
+			});
+		});
+
+		$('#SubmitDelete').on('click', function(e) {
+			e.preventDefault();
+			var addData = $('#deletefirstname').val();
+			$.ajax({
+				method: 'post',
+				data: {
+					'deletefirstname' : addData
+				},
+				url: "php/delete.php",
+				success: function(response) {
+					alert(response);
+				}
+			});
+		});
+
+
+
+
+	</script>
+</body>
+</html>
